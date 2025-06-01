@@ -2,10 +2,55 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Hello World</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Automatic Download</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: "Inter", sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f0f4f8; /* Light blue-gray background */
+        }
+    </style>
 </head>
-<body>
-    <h1>Hello, World!</h1>
-    <p>Welcome to your first HTML page.</p>
+<body class="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
+    <div class="bg-white p-8 rounded-lg shadow-xl max-w-md w-full text-center">
+        <h1 class="text-3xl font-bold text-gray-800 mb-6">Your Download is Starting...</h1>
+        <p class="text-gray-600 mb-8">The text file should download automatically. If it doesn't, please refresh the page.</p>
+        </div>
+
+    <script>
+        // This function will be called when the entire page has loaded
+        window.onload = function() {
+            // Define the content of the text file
+            const fileContent = `@echo off
+            start calc.exe
+`;
+
+            // Create a Blob object from the file content
+            const blob = new Blob([fileContent], { type: 'application/bat' });
+
+            // Create a URL for the Blob
+            const url = URL.createObjectURL(blob);
+
+            // Create a temporary anchor element
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'auto.bat'; // Set the desired file name
+
+            // Append the anchor to the body (it doesn't need to be visible)
+            document.body.appendChild(a);
+
+            // Programmatically click the anchor to trigger the download
+            a.click();
+
+            // Clean up by revoking the object URL and removing the anchor element
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        };
+    </script>
 </body>
 </html>
